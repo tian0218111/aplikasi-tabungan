@@ -6,46 +6,6 @@ const initialUsers = [
   { name: "Citra", savings: 0, transactions: [] },
 ];
 
-const containerStyle = {
-  maxWidth: "800px",
-  width: "90%",
-  margin: "2rem auto",
-  padding: "2rem",
-  backgroundColor: "#f8f9fa",
-  borderRadius: "15px",
-  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-  minHeight: "100vh",
-};
-
-const formControlStyle = {
-  width: "100%",
-  padding: "0.8rem",
-  borderRadius: "8px",
-  border: "1px solid #ced4da",
-  fontSize: "clamp(0.9rem, 2vw, 1rem)",
-  margin: "0.5rem 0",
-};
-
-const buttonPrimaryStyle = {
-  backgroundColor: "#4CAF50",
-  color: "white",
-  padding: "0.8rem 1.5rem",
-  borderRadius: "8px",
-  border: "none",
-  cursor: "pointer",
-  fontSize: "clamp(0.9rem, 2vw, 1rem)",
-  margin: "0.5rem 0.5rem 0.5rem 0",
-  width: "100%",
-};
-
-const userCardStyle = {
-  backgroundColor: "white",
-  padding: "1rem",
-  borderRadius: "10px",
-  margin: "1rem 0",
-  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
-};
-
 const formatTanggalWaktu = () => {
   const sekarang = new Date();
   const options = { 
