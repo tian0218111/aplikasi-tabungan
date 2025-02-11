@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/aplikasi-tabungan/static/css/main.e6c13ad2.css",
-    "main.js": "/aplikasi-tabungan/static/js/main.fc85f5bb.js",
+    "main.js": "/aplikasi-tabungan/static/js/main.0d748889.js",
     "static/js/488.141a790c.chunk.js": "/aplikasi-tabungan/static/js/488.141a790c.chunk.js",
     "index.html": "/aplikasi-tabungan/index.html",
     "main.e6c13ad2.css.map": "/aplikasi-tabungan/static/css/main.e6c13ad2.css.map",
-    "main.fc85f5bb.js.map": "/aplikasi-tabungan/static/js/main.fc85f5bb.js.map",
+    "main.0d748889.js.map": "/aplikasi-tabungan/static/js/main.0d748889.js.map",
     "488.141a790c.chunk.js.map": "/aplikasi-tabungan/static/js/488.141a790c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.fc85f5bb.js"
+    "static/js/main.0d748889.js"
   ]
 }
