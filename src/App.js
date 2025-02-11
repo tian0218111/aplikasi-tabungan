@@ -6,15 +6,15 @@ const initialUsers = [
   { name: "Citra", savings: 0, transactions: [] },
 ];
 
-// Style constants untuk konsistensi
 const containerStyle = {
-  maxWidth: "600px",
+  maxWidth: "800px",
+  width: "90%",
   margin: "2rem auto",
   padding: "2rem",
   backgroundColor: "#f8f9fa",
   borderRadius: "15px",
   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-  width: "100%",
+  minHeight: "100vh",
 };
 
 const formControlStyle = {
@@ -22,7 +22,7 @@ const formControlStyle = {
   padding: "0.8rem",
   borderRadius: "8px",
   border: "1px solid #ced4da",
-  fontSize: "1rem",
+  fontSize: "clamp(0.9rem, 2vw, 1rem)",
   margin: "0.5rem 0",
 };
 
@@ -33,14 +33,9 @@ const buttonPrimaryStyle = {
   borderRadius: "8px",
   border: "none",
   cursor: "pointer",
-  fontSize: "1rem",
+  fontSize: "clamp(0.9rem, 2vw, 1rem)",
   margin: "0.5rem 0.5rem 0.5rem 0",
   width: "100%",
-};
-
-const buttonDangerStyle = {
-  ...buttonPrimaryStyle,
-  backgroundColor: "#dc3545",
 };
 
 const userCardStyle = {
@@ -141,30 +136,35 @@ export default function SavingsApp() {
 
   return (
     <div style={containerStyle}>
-      <h1 style={{ color: "#2c3e50", textAlign: "center", marginBottom: "2rem" }}>
+      <h1 style={{ 
+        color: "#2c3e50", 
+        textAlign: "center", 
+        marginBottom: "2rem",
+        fontSize: "clamp(1.5rem, 4vw, 2.5rem)"
+      }}>
         🏦 Aplikasi Tabungan Kelompok
       </h1>
 
-      {error && <div style={{ 
-        backgroundColor: "#ffeef0", 
-        padding: "1rem", 
-        borderRadius: "8px", 
-        color: "#dc3545",
-        marginBottom: "1rem"
-      }}>{error}</div>}
-
-      <div style={{ backgroundColor: "white", padding: "1.5rem", borderRadius: "10px" }}>
-        <div style={{ display: "flex", gap: "1rem", flexDirection: "column", marginBottom: "1rem" }}>
-          <select 
-            style={formControlStyle}
-            value={selectedUser} 
-            onChange={(e) => setSelectedUser(e.target.value)}
-          >
-            {users.map(user => (
-              <option key={user.name} value={user.name}>{user.name}</option>
-            ))}
-          </select>
-          
+      {/* Form Input Section */}
+      <div style={{ 
+        backgroundColor: "white", 
+        padding: "1.5rem", 
+        borderRadius: "10px",
+        display: "grid",
+        gap: "1rem",
+        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))"
+      }}>
+        <select 
+          style={formControlStyle}
+          value={selectedUser} 
+          onChange={(e) => setSelectedUser(e.target.value)}
+        >
+          {users.map(user => (
+            <option key={user.name} value={user.name}>{user.name}</option>
+          ))}
+        </select>
+        
+        <div style={{ position: "relative" }}>
           <input
             style={formControlStyle}
             type="number"
@@ -174,56 +174,84 @@ export default function SavingsApp() {
           />
         </div>
 
-        <div style={{ display: "flex", gap: "1rem", flexDirection: "column" }}>
+        <div style={{ 
+          display: "flex", 
+          gap: "1rem",
+          gridColumn: "1 / -1"
+        }}>
           <button style={buttonPrimaryStyle} onClick={handleAddSavings}>
             💵 Tambah Tabungan
           </button>
-          <button style={buttonDangerStyle} onClick={handleResetSavings}>
+          <button style={{ 
+            ...buttonPrimaryStyle, 
+            backgroundColor: "#dc3545" 
+          }} onClick={handleResetSavings}>
             🔄 Reset Semua
           </button>
         </div>
       </div>
 
-      <div style={{ marginTop: "2rem" }}>
-        <h2 style={{ color: "#2c3e50", marginBottom: "1rem" }}>➕ Tambah Anggota Baru</h2>
-        <div style={{ display: "flex", gap: "1rem", flexDirection: "column" }}>
-          <input
-            style={formControlStyle}
-            type="text"
-            placeholder="Nama anggota baru"
-            value={newUserName}
-            onChange={(e) => setNewUserName(e.target.value)}
-          />
-          <button style={buttonPrimaryStyle} onClick={handleAddUser}>
-            👤 Tambah Anggota
-          </button>
-        </div>
+      {/* Add User Section */}
+      <div style={{ 
+        marginTop: "2rem",
+        display: "grid",
+        gap: "1rem",
+        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))"
+      }}>
+        <input
+          style={formControlStyle}
+          type="text"
+          placeholder="Nama anggota baru"
+          value={newUserName}
+          onChange={(e) => setNewUserName(e.target.value)}
+        />
+        <button style={buttonPrimaryStyle} onClick={handleAddUser}>
+          👤 Tambah Anggota
+        </button>
       </div>
 
-      <div style={{ marginTop: "2rem" }}>
-        <h2 style={{ color: "#2c3e50", marginBottom: "1rem" }}>📊 Rekapitulasi Tabungan</h2>
-        
+      {/* User Cards Section */}
+      <div style={{ 
+        marginTop: "2rem",
+        display: "grid",
+        gap: "1rem",
+        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))"
+      }}>
         {users.map(user => (
           <div key={user.name} style={userCardStyle}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <h3 style={{ margin: 0 }}>👤 {user.name}</h3>
+            <div style={{ 
+              display: "flex", 
+              justifyContent: "space-between", 
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "0.5rem"
+            }}>
+              <h3 style={{ margin: 0, fontSize: "1.2rem" }}>👤 {user.name}</h3>
               <button 
-                style={{ ...buttonDangerStyle, padding: "0.4rem 0.8rem" }}
+                style={{ 
+                  ...buttonPrimaryStyle, 
+                  backgroundColor: "#dc3545",
+                  padding: "0.4rem 0.8rem",
+                  width: "auto"
+                }}
                 onClick={() => handleDeleteUser(user.name)}
               >
                 Hapus
               </button>
             </div>
             
-            <p style={{ fontSize: "1.2rem", margin: "1rem 0" }}>
-              Saldo: <span style={{ fontWeight: "bold", color: "#2ecc71" }}>
-                Rp{user.savings.toLocaleString()}
-              </span>
+            <p style={{ 
+              fontSize: "clamp(1rem, 2vw, 1.2rem)", 
+              margin: "1rem 0",
+              fontWeight: "bold", 
+              color: "#2ecc71" 
+            }}>
+              Saldo: Rp{user.savings.toLocaleString()}
             </p>
 
             <div>
-              <p style={{ fontWeight: "500", marginBottom: "0.5rem" }}>📜 Riwayat Transaksi:</p>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              <p style={{ fontWeight: "500", marginBottom: "0.5rem", fontSize: "0.9rem" }}>📜 Riwayat Transaksi:</p>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, maxHeight: "150px", overflowY: "auto" }}>
                 {user.transactions.map((transaction, index) => (
                   <li 
                     key={index}
@@ -231,7 +259,8 @@ export default function SavingsApp() {
                       padding: "0.5rem",
                       backgroundColor: index % 2 === 0 ? "#f8f9fa" : "white",
                       borderRadius: "6px",
-                      margin: "0.25rem 0"
+                      margin: "0.25rem 0",
+                      fontSize: "0.85rem"
                     }}
                   >
                     {transaction.type === "deposit" ? (
@@ -245,22 +274,32 @@ export default function SavingsApp() {
             </div>
           </div>
         ))}
+      </div>
 
-        <div style={{ 
-          backgroundColor: "#2c3e50",
-          color: "white",
-          padding: "1.5rem",
-          borderRadius: "10px",
-          marginTop: "2rem",
-          textAlign: "center"
+      {/* Total Savings */}
+      <div style={{ 
+        backgroundColor: "#2c3e50",
+        color: "white",
+        padding: "1.5rem",
+        borderRadius: "10px",
+        marginTop: "2rem",
+        textAlign: "center",
+        position: "sticky",
+        bottom: "1rem"
+      }}>
+        <h3 style={{ 
+          margin: 0,
+          fontSize: "clamp(1rem, 3vw, 1.2rem)"
         }}>
-          <h3 style={{ margin: 0 }}>
-            Total Tabungan Kelompok: 
-            <span style={{ color: "#2ecc71", marginLeft: "1rem" }}>
-              Rp{totalSavings.toLocaleString()}
-            </span>
-          </h3>
-        </div>
+          Total Tabungan Kelompok: 
+          <span style={{ 
+            color: "#2ecc71", 
+            marginLeft: "1rem",
+            display: "inline-block"
+          }}>
+            Rp{totalSavings.toLocaleString()}
+          </span>
+        </h3>
       </div>
     </div>
   );
