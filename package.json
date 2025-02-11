@@ -4,10 +4,12 @@
   "private": true,
   "homepage": "https://tian0218111.github.io/aplikasi-tabungan",
   "dependencies": {
-    "firebase": "^11.3.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-scripts": "5.0.1"
+    "@babel/preset-react": "^7.26.3",
+    "@supabase/supabase-js": "^2.48.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "^5.0.1",
+    "web-vitals": "^4.2.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,6 +39,8 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "eslint": "^8.56.0",
+    "eslint-config-react-app": "^7.0.1",
     "gh-pages": "^6.3.0"
   }
 }

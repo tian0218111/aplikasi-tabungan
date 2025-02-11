@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { db, collection, getDocs, doc, addDoc, updateDoc, deleteDoc } from './firebase/firebase-config';
+
+const initialUsers = [
+  { name: "Ali", savings: 0, transactions: [] },
+  { name: "Budi", savings: 0, transactions: [] },
+  { name: "Citra", savings: 0, transactions: [] },
+];
 
 const formatTanggalWaktu = () => {
   const sekarang = new Date();
@@ -16,38 +21,30 @@ const formatTanggalWaktu = () => {
 };
 
 export default function SavingsApp() {
-  const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState("");
+  const [users, setUsers] = useState(() => {
+    try {
+      const savedUsers = localStorage.getItem("users");
+      return savedUsers ? JSON.parse(savedUsers) : initialUsers;
+    } catch (error) {
+      return initialUsers;
+    }
+  });
+
+  const [selectedUser, setSelectedUser] = useState(users[0]?.name || "");
   const [amount, setAmount] = useState("");
   const [newUserName, setNewUserName] = useState("");
   const [error, setError] = useState("");
 
-  // Fungsi untuk mengambil data dari Firestore
-  const getUsersFromFirestore = async () => {
-    const querySnapshot = await getDocs(collection(db, "users"));
-    const usersData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setUsers(usersData);
-  };
-
-  // Fungsi untuk menyimpan data pengguna ke Firestore
-  const saveToFirestore = async (updatedUsers) => {
-    for (const user of updatedUsers) {
-      const userRef = doc(db, "users", user.id);
-      await updateDoc(userRef, user);
-    }
+  // Fungsi untuk menyimpan data pengguna ke localStorage
+  const saveToLocalStorage = (updatedUsers) => {
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
   };
 
   useEffect(() => {
-    getUsersFromFirestore();
-  }, []);
-
-  useEffect(() => {
-    if (users.length > 0) {
-      saveToFirestore(users);
-    }
+    saveToLocalStorage(users);
   }, [users]);
 
-  const handleAddSavings = async () => {
+  const handleAddSavings = () => {
     const numericAmount = Number(amount);
     if (!amount || isNaN(numericAmount) || numericAmount <= 0) {
       setError("❗ Masukkan jumlah yang valid (lebih dari 0)");
@@ -76,7 +73,7 @@ export default function SavingsApp() {
     setError("");
   };
 
-  const handleResetSavings = async () => {
+  const handleResetSavings = () => {
     const updatedUsers = users.map(user => ({
       ...user,
       savings: 0,
@@ -88,31 +85,23 @@ export default function SavingsApp() {
         },
       ],
     }));
-
     setUsers(updatedUsers);
   };
 
-  const handleDeleteUser = async (name) => {
+  const handleDeleteUser = (name) => {
     const updatedUsers = users.filter(user => user.name !== name);
     setUsers(updatedUsers);
     if (selectedUser === name) setSelectedUser(updatedUsers[0]?.name || "");
-    
-    const userToDelete = users.find(user => user.name === name);
-    if (userToDelete) {
-      await deleteDoc(doc(db, "users", userToDelete.id));
-    }
   };
 
-  const handleAddUser = async () => {
+  const handleAddUser = () => {
     if (!newUserName.trim() || users.some(user => user.name === newUserName.trim())) {
       setError("❌ Nama sudah digunakan atau tidak valid");
       return;
     }
 
-    const newUser = { name: newUserName.trim(), savings: 0, transactions: [] };
-    const docRef = await addDoc(collection(db, "users"), newUser);
-
-    setUsers([...users, { id: docRef.id, ...newUser }]);
+    const updatedUsers = [...users, { name: newUserName.trim(), savings: 0, transactions: [] }];
+    setUsers(updatedUsers);
     setNewUserName("");
     setError("");
   };
@@ -232,4 +221,4 @@ export default function SavingsApp() {
       </div>
     </div>
   );
-}
+}  
