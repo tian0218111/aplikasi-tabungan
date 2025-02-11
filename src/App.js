@@ -13,7 +13,8 @@ const containerStyle = {
   padding: "2rem",
   backgroundColor: "#f8f9fa",
   borderRadius: "15px",
-  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
+  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  width: "100%",
 };
 
 const formControlStyle = {
@@ -22,7 +23,7 @@ const formControlStyle = {
   borderRadius: "8px",
   border: "1px solid #ced4da",
   fontSize: "1rem",
-  margin: "0.5rem 0"
+  margin: "0.5rem 0",
 };
 
 const buttonPrimaryStyle = {
@@ -33,12 +34,13 @@ const buttonPrimaryStyle = {
   border: "none",
   cursor: "pointer",
   fontSize: "1rem",
-  margin: "0.5rem 0.5rem 0.5rem 0"
+  margin: "0.5rem 0.5rem 0.5rem 0",
+  width: "100%",
 };
 
 const buttonDangerStyle = {
   ...buttonPrimaryStyle,
-  backgroundColor: "#dc3545"
+  backgroundColor: "#dc3545",
 };
 
 const userCardStyle = {
@@ -46,7 +48,7 @@ const userCardStyle = {
   padding: "1rem",
   borderRadius: "10px",
   margin: "1rem 0",
-  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)"
+  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
 };
 
 export default function SavingsApp() {
@@ -82,7 +84,12 @@ export default function SavingsApp() {
         transactions: [...user.transactions, {
           type: "deposit",
           amount: numericAmount,
-          date: new Date().toLocaleString()
+          date: new Date().toLocaleDateString("id-ID", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
         }]
       } : user
     );
@@ -98,7 +105,12 @@ export default function SavingsApp() {
       savings: 0,
       transactions: [...user.transactions, {
         type: "reset",
-        date: new Date().toLocaleString()
+        date: new Date().toLocaleDateString("id-ID", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
       }]
     }));
     setUsers(updatedUsers);
@@ -142,7 +154,7 @@ export default function SavingsApp() {
       }}>{error}</div>}
 
       <div style={{ backgroundColor: "white", padding: "1.5rem", borderRadius: "10px" }}>
-        <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
+        <div style={{ display: "flex", gap: "1rem", flexDirection: "column", marginBottom: "1rem" }}>
           <select 
             style={formControlStyle}
             value={selectedUser} 
@@ -162,7 +174,7 @@ export default function SavingsApp() {
           />
         </div>
 
-        <div style={{ display: "flex", gap: "1rem" }}>
+        <div style={{ display: "flex", gap: "1rem", flexDirection: "column" }}>
           <button style={buttonPrimaryStyle} onClick={handleAddSavings}>
             💵 Tambah Tabungan
           </button>
@@ -174,7 +186,7 @@ export default function SavingsApp() {
 
       <div style={{ marginTop: "2rem" }}>
         <h2 style={{ color: "#2c3e50", marginBottom: "1rem" }}>➕ Tambah Anggota Baru</h2>
-        <div style={{ display: "flex", gap: "1rem" }}>
+        <div style={{ display: "flex", gap: "1rem", flexDirection: "column" }}>
           <input
             style={formControlStyle}
             type="text"
