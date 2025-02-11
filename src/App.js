@@ -35,8 +35,13 @@ export default function SavingsApp() {
   const [newUserName, setNewUserName] = useState("");
   const [error, setError] = useState("");
 
+  // Fungsi untuk menyimpan data pengguna ke localStorage
+  const saveToLocalStorage = (updatedUsers) => {
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+  };
+
   useEffect(() => {
-    localStorage.setItem("users", JSON.stringify(users));
+    saveToLocalStorage(users);
   }, [users]);
 
   const handleAddSavings = () => {
@@ -56,7 +61,7 @@ export default function SavingsApp() {
               {
                 type: "deposit",
                 amount: numericAmount,
-                date: formatTanggalWaktu(), // Gunakan fungsi formatTanggalWaktu
+                date: formatTanggalWaktu(),
               },
             ],
           }
@@ -76,7 +81,7 @@ export default function SavingsApp() {
         ...user.transactions,
         {
           type: "reset",
-          date: formatTanggalWaktu(), // Gunakan fungsi formatTanggalWaktu
+          date: formatTanggalWaktu(),
         },
       ],
     }));
@@ -95,7 +100,8 @@ export default function SavingsApp() {
       return;
     }
 
-    setUsers([...users, { name: newUserName.trim(), savings: 0, transactions: [] }]);
+    const updatedUsers = [...users, { name: newUserName.trim(), savings: 0, transactions: [] }];
+    setUsers(updatedUsers);
     setNewUserName("");
     setError("");
   };
@@ -105,15 +111,15 @@ export default function SavingsApp() {
   return (
     <div style={{ maxWidth: "800px", margin: "2rem auto", padding: "2rem", backgroundColor: "#f8f9fa", borderRadius: "15px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }}>
       <h1 style={{ color: "#2c3e50", textAlign: "center", marginBottom: "2rem", fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}>
-        🏦 Aplikasi Tabungan Kelompok
+        🏦 Aplikasi Tabungan Home Ahza
       </h1>
 
       {error && <div style={{ backgroundColor: "#ffeef0", padding: "1rem", borderRadius: "8px", color: "#dc3545", marginBottom: "1rem" }}>{error}</div>}
 
       <div style={{ backgroundColor: "white", padding: "1.5rem", borderRadius: "10px", display: "grid", gap: "1rem", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))" }}>
-        <select 
+        <select
           style={{ width: "100%", padding: "0.8rem", borderRadius: "8px", border: "1px solid #ced4da", fontSize: "clamp(0.9rem, 2vw, 1rem)", margin: "0.5rem 0" }}
-          value={selectedUser} 
+          value={selectedUser}
           onChange={(e) => setSelectedUser(e.target.value)}
         >
           {users.map(user => (
@@ -130,13 +136,13 @@ export default function SavingsApp() {
         />
 
         <div style={{ display: "flex", gap: "1rem", gridColumn: "1 / -1" }}>
-          <button 
+          <button
             style={{ backgroundColor: "#4CAF50", color: "white", padding: "0.8rem 1.5rem", borderRadius: "8px", border: "none", cursor: "pointer", fontSize: "clamp(0.9rem, 2vw, 1rem)", margin: "0.5rem 0.5rem 0.5rem 0", width: "100%" }}
             onClick={handleAddSavings}
           >
             💵 Tambah Tabungan
           </button>
-          <button 
+          <button
             style={{ backgroundColor: "#dc3545", color: "white", padding: "0.8rem 1.5rem", borderRadius: "8px", border: "none", cursor: "pointer", fontSize: "clamp(0.9rem, 2vw, 1rem)", margin: "0.5rem 0.5rem 0.5rem 0", width: "100%" }}
             onClick={handleResetSavings}
           >
@@ -153,7 +159,7 @@ export default function SavingsApp() {
           value={newUserName}
           onChange={(e) => setNewUserName(e.target.value)}
         />
-        <button 
+        <button
           style={{ backgroundColor: "#4CAF50", color: "white", padding: "0.8rem 1.5rem", borderRadius: "8px", border: "none", cursor: "pointer", fontSize: "clamp(0.9rem, 2vw, 1rem)", margin: "0.5rem 0.5rem 0.5rem 0", width: "100%" }}
           onClick={handleAddUser}
         >
@@ -166,7 +172,7 @@ export default function SavingsApp() {
           <div key={user.name} style={{ backgroundColor: "white", padding: "1rem", borderRadius: "10px", margin: "1rem 0", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
               <h3 style={{ margin: 0, fontSize: "1.2rem" }}>👤 {user.name}</h3>
-              <button 
+              <button
                 style={{ backgroundColor: "#dc3545", color: "white", padding: "0.4rem 0.8rem", borderRadius: "8px", border: "none", cursor: "pointer", fontSize: "0.9rem", width: "auto" }}
                 onClick={() => handleDeleteUser(user.name)}
               >
